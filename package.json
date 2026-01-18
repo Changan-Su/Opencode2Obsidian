@@ -1,6 +1,6 @@
 {
   "name": "opencode2obsidian",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Embed OpenCode AI assistant in Obsidian - with i18n support and theme adaptation",
   "main": "main.js",
   "scripts": {

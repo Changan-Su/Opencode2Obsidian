@@ -60,11 +60,10 @@ export class ProcessManager {
   }
 
   /**
-   * Get server URL with base64-encoded project path
+   * Get server URL (root path without project encoding)
    */
   getUrl(): string {
-    const encodedPath = btoa(this.projectDirectory);
-    return `http://${this.settings.hostname}:${this.settings.port}/${encodedPath}`;
+    return `http://${this.settings.hostname}:${this.settings.port}`;
   }
 
   /**
@@ -102,6 +101,11 @@ export class ProcessManager {
     });
 
     // Spawn OpenCode server process
+    // NOTE: Use user home directory as cwd instead of project directory
+    // to ensure OpenCode can access all sessions and settings globally
+    const os = require("os");
+    const homedir = os.homedir();
+    
     this.process = spawn(
       this.settings.opencodePath,
       [
@@ -114,7 +118,7 @@ export class ProcessManager {
         "app://obsidian.md",
       ],
       {
-        cwd: this.projectDirectory,
+        cwd: homedir,
         env: { ...process.env },
         stdio: ["ignore", "pipe", "pipe"],
         detached: false,

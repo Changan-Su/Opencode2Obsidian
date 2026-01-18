@@ -9,6 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.1] - 2026-01-18
+
+### Fixed / 修复
+- **CRITICAL: Session Access Bug** - Fixed issue where embedded OpenCode could not access sessions from other directories
+- **关键修复：Session 访问错误** - 修复了嵌入式 OpenCode 无法访问其他目录 session 的问题
+- **Settings Interface Bug** - Fixed settings interface malfunction caused by incorrect working directory
+- **设置界面错误** - 修复了由于工作目录错误导致的设置界面功能异常
+- **URL Path Encoding** - Removed incorrect base64 path encoding from URL (OpenCode CLI doesn't support path parameters)
+- **URL 路径编码** - 移除了错误的 base64 路径编码（OpenCode CLI 不支持路径参数）
+- **Working Directory** - Changed from vault-specific directory to user home directory for global session/settings access
+- **工作目录** - 从特定 vault 目录改为用户主目录，以实现全局 session/设置访问
+
+### Technical Details / 技术细节
+- **Before**: `http://127.0.0.1:14096/QzpcVXNlcnNc...` (base64-encoded vault path)
+- **After**: `http://127.0.0.1:14096/` (root path only)
+- **Working Directory**: Changed `cwd: this.projectDirectory` to `cwd: os.homedir()`
+- See `BUGFIX-SESSION.md` for detailed analysis
+
+---
+
 ## [0.2.0] - 2026-01-18
 
 ### Added / 新增
@@ -112,5 +132,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[0.2.1]: https://github.com/Changan-Su/opencode2obsidian/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/Changan-Su/opencode2obsidian/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Changan-Su/opencode2obsidian/releases/tag/v0.1.0
