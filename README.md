@@ -36,17 +36,10 @@
 3. Select or enter your Obsidian vault path
 4. Enable the plugin in Obsidian settings
 
-#### Manual Installation
-```bash
-# Clone and build
-git clone https://github.com/Changan-Su/opencode2obsidian.git
-cd opencode2obsidian
-bun install
-bun run build
-
-# Copy to your vault
-cp main.js manifest.json styles.css /path/to/vault/.obsidian/plugins/opencode2obsidian/
-```
+#### Manual Installation (Recommended)
+1. Download the latest release zip from the **Releases** page
+2. Create a plugin folder in your vault: `/path/to/vault/.obsidian/plugins/opencode2obsidian/`
+3. Unzip the release files into that folder
 
 ### Requirements
 
@@ -115,17 +108,10 @@ MIT License - see [LICENSE](LICENSE) for details.
 3. 选择或输入您的 Obsidian Vault 路径
 4. 在 Obsidian 设置中启用插件
 
-#### 手动安装
-```bash
-# 克隆并构建
-git clone https://github.com/Changan-Su/opencode2obsidian.git
-cd opencode2obsidian
-bun install
-bun run build
-
-# 复制到您的 vault
-cp main.js manifest.json styles.css /path/to/vault/.obsidian/plugins/opencode2obsidian/
-```
+#### 手动安装（推荐）
+1. 在 **Releases** 页面下载最新版本的压缩包
+2. 在您的 vault 下创建插件目录：`/path/to/vault/.obsidian/plugins/opencode2obsidian/`
+3. 将压缩包解压到该目录
 
 ### 系统要求
 
