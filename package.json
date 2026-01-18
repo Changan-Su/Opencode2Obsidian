@@ -1,0 +1,38 @@
+{
+  "name": "opencode2obsidian",
+  "version": "0.2.0",
+  "description": "Embed OpenCode AI assistant in Obsidian - with i18n support and theme adaptation",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "bun run tsc -noEmit -skipLibCheck && bun run esbuild.config.mjs production",
+    "test": "bun test"
+  },
+  "keywords": [
+    "obsidian",
+    "opencode",
+    "ai",
+    "assistant",
+    "knowledge-management",
+    "i18n"
+  ],
+  "author": "Changan Su <https://github.com/Changan-Su>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Changan-Su/opencode2obsidian"
+  },
+  "bugs": {
+    "url": "https://github.com/Changan-Su/opencode2obsidian/issues"
+  },
+  "homepage": "https://github.com/Changan-Su/opencode2obsidian#readme",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "@types/node": "^20.11.0",
+    "builtin-modules": "^3.3.0",
+    "esbuild": "^0.21.5",
+    "obsidian": "latest",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
+  }
+}

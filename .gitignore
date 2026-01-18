@@ -1,0 +1,19 @@
+node_modules
+data.json
+main.js
+*.map
+.DS_Store
+bun.lock
+
+# Release builds
+release/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS specific
+Thumbs.db
