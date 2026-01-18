@@ -17,3 +17,7 @@ release/
 
 # OS specific
 Thumbs.db
+
+# Local documents
+@Documents/
+Documents/
