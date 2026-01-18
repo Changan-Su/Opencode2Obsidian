@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/banner.svg" alt="OpenCode2Obsidian Banner" width="100%">
+</p>
+
 # OpenCode2Obsidian
 
 [English](#english) | [简体中文](#简体中文)
@@ -22,24 +26,12 @@
 - **Flexible Configuration** - Complete settings interface with customizable paths, ports, and more
 - **One-Click Install** - Simple installation scripts for Windows and macOS
 
-### Quick Installation
+### Manual Installation (Recommended)
 
-#### Windows
-1. Download or clone this repository
-2. Double-click `install-windows.bat`
-3. Enter or drag your Obsidian vault path
-4. Enable the plugin in Obsidian settings
-
-#### macOS
-1. Download or clone this repository
-2. Double-click `install-macos.command`
-3. Select or enter your Obsidian vault path
-4. Enable the plugin in Obsidian settings
-
-#### Manual Installation (Recommended)
 1. Download the latest release zip from the **Releases** page
 2. Create a plugin folder in your vault: `/path/to/vault/.obsidian/plugins/opencode2obsidian/`
 3. Unzip the release files into that folder
+4. Enable the plugin in Obsidian settings
 
 ### Requirements
 
@@ -94,24 +86,12 @@ MIT License - see [LICENSE](LICENSE) for details.
 - **灵活配置** - 完整的设置界面，支持自定义路径、端口等
 - **一键安装** - 简单易用的 Windows 和 macOS 安装脚本
 
-### 快速安装
+### 手动安装（推荐）
 
-#### Windows
-1. 下载或克隆此仓库
-2. 双击运行 `install-windows.bat`
-3. 输入或拖拽您的 Obsidian Vault 路径
-4. 在 Obsidian 设置中启用插件
-
-#### macOS
-1. 下载或克隆此仓库
-2. 双击运行 `install-macos.command`
-3. 选择或输入您的 Obsidian Vault 路径
-4. 在 Obsidian 设置中启用插件
-
-#### 手动安装（推荐）
 1. 在 **Releases** 页面下载最新版本的压缩包
 2. 在您的 vault 下创建插件目录：`/path/to/vault/.obsidian/plugins/opencode2obsidian/`
 3. 将压缩包解压到该目录
+4. 在 Obsidian 设置中启用插件
 
 ### 系统要求
 
