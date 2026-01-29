@@ -1,12 +1,40 @@
 import { App, PluginSettingTab, Setting, Notice, setIcon } from "obsidian";
 import { existsSync, statSync } from "fs";
 import { homedir } from "os";
-import { exec } from "child_process";
-import { promisify } from "util";
+import { spawn } from "child_process";
 import type OpenCode2ObsidianPlugin from "./main";
 import { t, setLocale, getLocale, type Locale } from "./i18n";
 
-const execAsync = promisify(exec);
+/**
+ * Execute a command safely and return stdout
+ */
+async function execCommand(command: string, args: string[] = []): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const proc = spawn(command, args, { shell: false });
+    let stdout = "";
+    let stderr = "";
+
+    proc.stdout?.on("data", (data) => {
+      stdout += data.toString();
+    });
+
+    proc.stderr?.on("data", (data) => {
+      stderr += data.toString();
+    });
+
+    proc.on("close", (code) => {
+      if (code === 0) {
+        resolve(stdout.trim());
+      } else {
+        reject(new Error(stderr || `Command exited with code ${code}`));
+      }
+    });
+
+    proc.on("error", (err) => {
+      reject(err);
+    });
+  });
+}
 
 /**
  * Expand tilde (~) to home directory
@@ -296,6 +324,12 @@ export class OpenCodeSettingTab extends PluginSettingTab {
         diagnosticsButton.disabled = true;
         diagnosticsButton.setText(t("diagnosticsRunning"));
         
+        // Remove any existing diagnostics output
+        const existingDiag = container.querySelector(".opencode-diagnostics-output");
+        if (existingDiag) {
+          existingDiag.remove();
+        }
+        
         const diagnostics = await this.runDiagnostics();
         
         // Show diagnostics in a modal or notice
@@ -303,7 +337,7 @@ export class OpenCodeSettingTab extends PluginSettingTab {
         console.log("[OpenCode2Obsidian] Diagnostics:\n" + diagnostics);
         
         // Create diagnostics display
-        const diagEl = container.createEl("pre", {
+        container.createEl("pre", {
           text: diagnostics,
           cls: "opencode-diagnostics-output",
         });
@@ -372,8 +406,15 @@ export class OpenCodeSettingTab extends PluginSettingTab {
       text: t("btnCheckUpdates"),
       cls: "mod-cta",
     });
+    
+    // Create a persistent result container
+    const resultContainer = container.createDiv({ cls: "opencode-update-result-container" });
+    
     checkButton.addEventListener("click", async () => {
-      await this.checkForUpdates(container, currentVersion);
+      // Disable button to prevent multiple simultaneous requests
+      checkButton.disabled = true;
+      await this.checkForUpdates(resultContainer, currentVersion);
+      checkButton.disabled = false;
     });
   }
 
@@ -381,6 +422,9 @@ export class OpenCodeSettingTab extends PluginSettingTab {
    * Check for updates from GitHub
    */
   private async checkForUpdates(container: HTMLElement, currentVersion: string): Promise<void> {
+    // Clear previous results
+    container.empty();
+    
     const resultEl = container.createDiv({ cls: "opencode-update-result" });
     resultEl.setText(t("updateChecking"));
 
@@ -452,8 +496,12 @@ export class OpenCodeSettingTab extends PluginSettingTab {
    * Returns: 1 if v1 > v2, -1 if v1 < v2, 0 if equal
    */
   private compareVersions(v1: string, v2: string): number {
-    const parts1 = v1.split(".").map(Number);
-    const parts2 = v2.split(".").map(Number);
+    // Remove any 'v' prefix and split by '.' to get base version numbers
+    const clean1 = v1.replace(/^v/, "").split("-")[0]; // Get base version, ignore prerelease
+    const clean2 = v2.replace(/^v/, "").split("-")[0];
+    
+    const parts1 = clean1.split(".").map(n => parseInt(n, 10) || 0);
+    const parts2 = clean2.split(".").map(n => parseInt(n, 10) || 0);
 
     for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
       const num1 = parts1[i] || 0;
@@ -475,29 +523,26 @@ export class OpenCodeSettingTab extends PluginSettingTab {
     diagnostics.push(`${t("diagnosticsOpenCodePath")}: ${this.plugin.settings.opencodePath}`);
 
     try {
-      // Check if OpenCode command exists
-      const { stdout: whichOutput } = await execAsync(
-        process.platform === "win32" 
-          ? `where ${this.plugin.settings.opencodePath}` 
-          : `which ${this.plugin.settings.opencodePath}`
-      );
-      diagnostics.push(`${t("diagnosticsCommandCheck")}: ${t("diagnosticsCommandFound")} (${whichOutput.trim()})`);
+      // Check if OpenCode command exists - use spawn to avoid command injection
+      const whichCommand = process.platform === "win32" ? "where" : "which";
+      const whichOutput = await execCommand(whichCommand, [this.plugin.settings.opencodePath]);
+      diagnostics.push(`${t("diagnosticsCommandCheck")}: ${t("diagnosticsCommandFound")} (${whichOutput})`);
     } catch {
       diagnostics.push(`${t("diagnosticsCommandCheck")}: ${t("diagnosticsCommandNotFound")}`);
     }
 
     // Check Node.js version
     try {
-      const { stdout: nodeVersion } = await execAsync("node --version");
-      diagnostics.push(`${t("diagnosticsNodeVersion")}: ${nodeVersion.trim()}`);
+      const nodeVersion = await execCommand("node", ["--version"]);
+      diagnostics.push(`${t("diagnosticsNodeVersion")}: ${nodeVersion}`);
     } catch {
       diagnostics.push(`${t("diagnosticsNodeVersion")}: Not found`);
     }
 
     // Check npm version
     try {
-      const { stdout: npmVersion } = await execAsync("npm --version");
-      diagnostics.push(`${t("diagnosticsNpmVersion")}: ${npmVersion.trim()}`);
+      const npmVersion = await execCommand("npm", ["--version"]);
+      diagnostics.push(`${t("diagnosticsNpmVersion")}: ${npmVersion}`);
     } catch {
       diagnostics.push(`${t("diagnosticsNpmVersion")}: Not found`);
     }
