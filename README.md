@@ -1,0 +1,214 @@
+<p align="center">
+  <img src="assets/banner.svg" alt="OpenCode2Obsidian Banner" width="100%">
+</p>
+
+# OpenCode2Obsidian
+
+[English](#english) | [简体中文](#简体中文)
+
+---
+
+## English
+
+> Embed OpenCode AI assistant seamlessly in Obsidian for AI-powered note management and knowledge work.
+
+[![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)](https://github.com/Changan-Su/opencode2obsidian)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Obsidian](https://img.shields.io/badge/Obsidian-1.4.0+-purple.svg)](https://obsidian.md)
+
+### Features
+
+- **Seamless Integration** - Embed OpenCode Web UI directly in Obsidian via iframe
+- **i18n Support** - Full English and Chinese language support
+- **Theme Adaptation** - Automatically adapts to Obsidian's dark/light themes
+- **Process Management** - Auto-start and manage OpenCode server process
+- **Status Monitoring** - Real-time server status and health checks
+- **Flexible Configuration** - Complete settings interface with customizable paths, ports, and more
+- **One-Click Install** - Simple installation scripts for Windows and macOS
+
+### Manual Installation (Recommended)
+
+1. Download the latest release zip from the **Releases** page
+2. Create a plugin folder in your vault: `/path/to/vault/.obsidian/plugins/opencode2obsidian/`
+3. Unzip the release files into that folder
+4. Enable the plugin in Obsidian settings
+
+### Requirements
+
+- [Obsidian](https://obsidian.md) Desktop v1.4.0+
+- [OpenCode CLI](https://opencode.ai) - Install with `npm install -g @anthropics/opencode`
+- [Bun](https://bun.sh) (for building from source)
+
+### Usage
+
+1. Click the OpenCode icon in the ribbon, or press `Ctrl/Cmd+Shift+O`
+2. The plugin will automatically start the OpenCode server
+3. Use OpenCode AI assistant directly within Obsidian
+
+### Configuration
+
+Go to **Settings > OpenCode2Obsidian** to configure:
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Language | Display language (English/中文) | Auto-detect |
+| OpenCode Path | Path to OpenCode executable | `opencode` |
+| Port | Server port number | `14096` |
+| Hostname | Server hostname | `127.0.0.1` |
+| Auto-start | Start server when Obsidian opens | Off |
+| Default View | Where to open the panel | Right sidebar |
+
+### Troubleshooting
+
+If you encounter the error **"Process exited unexpectedly exit code 1"**, try these solutions:
+
+1. **Verify OpenCode Installation**
+   ```bash
+   npm install -g @anthropics/opencode
+   ```
+
+2. **Check OpenCode Path**
+   - Go to Settings > OpenCode2Obsidian
+   - Try using `opencode` or the full path (e.g., `/usr/local/bin/opencode`)
+   - Click "Run Diagnostics" button in settings to check installation
+
+3. **Port Conflicts**
+   - Change the port number if 14096 is already in use
+   - Try ports like 14097, 14098, etc.
+
+4. **Check Updates**
+   - Go to Settings > OpenCode2Obsidian
+   - Click "Check for Updates" to ensure you have the latest version
+   - Download updates directly from GitHub releases
+
+For more details, check the console logs (Ctrl/Cmd+Shift+I) or run diagnostics from the settings page.
+
+### Author
+
+**Changan Su** - [@Changan-Su](https://github.com/Changan-Su)
+
+### License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+---
+
+## 简体中文
+
+> 在 Obsidian 中无缝嵌入 OpenCode AI 助手，为笔记管理和知识工作提供 AI 赋能。
+
+[![版本](https://img.shields.io/badge/版本-0.2.0-blue.svg)](https://github.com/Changan-Su/opencode2obsidian)
+[![许可证](https://img.shields.io/badge/许可证-MIT-green.svg)](LICENSE)
+[![Obsidian](https://img.shields.io/badge/Obsidian-1.4.0+-purple.svg)](https://obsidian.md)
+
+### 功能特性
+
+- **无缝集成** - 通过 iframe 直接在 Obsidian 中嵌入 OpenCode Web UI
+- **国际化支持** - 完整的中英文双语支持
+- **主题适配** - 自动适配 Obsidian 的明暗主题
+- **进程管理** - 自动启动和管理 OpenCode 服务进程
+- **状态监控** - 实时显示服务状态和健康检查
+- **灵活配置** - 完整的设置界面，支持自定义路径、端口等
+- **一键安装** - 简单易用的 Windows 和 macOS 安装脚本
+
+### 手动安装（推荐）
+
+1. 在 **Releases** 页面下载最新版本的压缩包
+2. 在您的 vault 下创建插件目录：`/path/to/vault/.obsidian/plugins/opencode2obsidian/`
+3. 将压缩包解压到该目录
+4. 在 Obsidian 设置中启用插件
+
+### 系统要求
+
+- [Obsidian](https://obsidian.md) 桌面版 v1.4.0+
+- [OpenCode CLI](https://opencode.ai) - 使用 `npm install -g @anthropics/opencode` 安装
+- [Bun](https://bun.sh)（仅从源码构建时需要）
+
+### 使用方法
+
+1. 点击侧边栏的 OpenCode 图标，或按 `Ctrl/Cmd+Shift+O`
+2. 插件将自动启动 OpenCode 服务器
+3. 直接在 Obsidian 中使用 OpenCode AI 助手
+
+### 配置说明
+
+进入 **设置 > OpenCode2Obsidian** 进行配置：
+
+| 设置项 | 说明 | 默认值 |
+|--------|------|--------|
+| 语言 | 显示语言（English/中文） | 自动检测 |
+| OpenCode 路径 | OpenCode 可执行文件路径 | `opencode` |
+| 端口 | 服务器端口号 | `14096` |
+| 主机名 | 服务器主机名 | `127.0.0.1` |
+| 自动启动 | Obsidian 启动时自动启动服务器 | 关闭 |
+| 默认视图 | 面板打开位置 | 右侧边栏 |
+
+### 故障排除
+
+如果遇到 **"Process exited unexpectedly exit code 1"** 错误，请尝试以下解决方案：
+
+1. **验证 OpenCode 安装**
+   ```bash
+   npm install -g @anthropics/opencode
+   ```
+
+2. **检查 OpenCode 路径**
+   - 进入 设置 > OpenCode2Obsidian
+   - 尝试使用 `opencode` 或完整路径（如 `/usr/local/bin/opencode`）
+   - 点击设置中的"运行诊断"按钮检查安装情况
+
+3. **端口冲突**
+   - 如果 14096 端口已被占用，请更改端口号
+   - 尝试使用 14097、14098 等端口
+
+4. **检查更新**
+   - 进入 设置 > OpenCode2Obsidian
+   - 点击"检查更新"确保使用最新版本
+   - 直接从 GitHub releases 下载更新
+
+更多详情，请查看控制台日志（Ctrl/Cmd+Shift+I）或从设置页面运行诊断。
+
+### 作者
+
+**Changan Su** - [@Changan-Su](https://github.com/Changan-Su)
+
+### 许可证
+
+MIT 许可证 - 详见 [LICENSE](LICENSE)
+
+---
+
+## Project Structure / 项目结构
+
+```
+opencode2obsidian/
+├── src/
+│   ├── main.ts           # Plugin entry point
+│   ├── OpenCodeView.ts   # View component
+│   ├── ProcessManager.ts # Server process management
+│   ├── SettingsTab.ts    # Settings UI
+│   ├── types.ts          # Type definitions
+│   ├── icons.ts          # Custom icons
+│   └── i18n/             # Internationalization
+│       ├── index.ts
+│       └── locales/
+│           ├── en.ts     # English strings
+│           └── zh-CN.ts  # Chinese strings
+├── styles.css            # Theme-adaptive styles
+├── manifest.json         # Plugin manifest
+├── install-windows.bat   # Windows installer
+├── install-macos.command # macOS installer
+└── Documents/            # Project documentation
+```
+
+## Changelog / 更新日志
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
+查看 [CHANGELOG.md](CHANGELOG.md) 了解版本历史。
+
+---
+
+**Made with love for the Obsidian community**
+
+**为 Obsidian 社区用心打造**

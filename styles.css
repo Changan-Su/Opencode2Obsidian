@@ -1,0 +1,608 @@
+/* ============================================
+   OpenCode2Obsidian Plugin Styles
+   Fully adapted to Obsidian theme variables
+   Author: Changan Su (https://github.com/Changan-Su)
+   ============================================ */
+
+/* ============================================
+   CSS Custom Properties (Theme Integration)
+   ============================================ */
+.opencode-container {
+  --opencode-primary: var(--interactive-accent);
+  --opencode-primary-hover: var(--interactive-accent-hover);
+  --opencode-success: var(--text-success);
+  --opencode-warning: var(--text-warning);
+  --opencode-error: var(--text-error);
+  --opencode-bg-primary: var(--background-primary);
+  --opencode-bg-secondary: var(--background-secondary);
+  --opencode-bg-tertiary: var(--background-secondary-alt);
+  --opencode-border: var(--background-modifier-border);
+  --opencode-border-hover: var(--background-modifier-border-hover);
+  --opencode-text-normal: var(--text-normal);
+  --opencode-text-muted: var(--text-muted);
+  --opencode-text-faint: var(--text-faint);
+  --opencode-radius-s: var(--radius-s);
+  --opencode-radius-m: var(--radius-m);
+  --opencode-radius-l: var(--radius-l);
+  --opencode-shadow: var(--shadow-s);
+  --opencode-transition: 150ms ease-in-out;
+}
+
+/* ============================================
+   Main Container
+   ============================================ */
+.opencode-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: var(--opencode-bg-primary);
+  overflow: hidden;
+}
+
+/* ============================================
+   Header Bar (Running State)
+   ============================================ */
+.opencode-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--size-4-2) var(--size-4-3);
+  border-bottom: 1px solid var(--opencode-border);
+  background-color: var(--opencode-bg-secondary);
+  flex-shrink: 0;
+}
+
+.opencode-header-title {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  font-weight: var(--font-semibold);
+  color: var(--opencode-text-normal);
+}
+
+.opencode-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--opencode-primary);
+}
+
+.opencode-header-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.opencode-header-text {
+  font-size: var(--font-ui-medium);
+  letter-spacing: -0.01em;
+}
+
+.opencode-header-actions {
+  display: flex;
+  gap: var(--size-4-1);
+}
+
+/* Action buttons in header */
+.opencode-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--opencode-radius-s);
+  cursor: pointer;
+  color: var(--opencode-text-muted);
+  transition: all var(--opencode-transition);
+}
+
+.opencode-action-btn:hover {
+  background-color: var(--background-modifier-hover);
+  border-color: var(--opencode-border);
+  color: var(--opencode-text-normal);
+}
+
+.opencode-action-btn:active {
+  background-color: var(--background-modifier-active-hover);
+}
+
+.opencode-action-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.opencode-action-btn-danger:hover {
+  color: var(--opencode-error);
+  background-color: rgba(var(--color-red-rgb), 0.1);
+  border-color: rgba(var(--color-red-rgb), 0.3);
+}
+
+/* ============================================
+   iframe Container
+   ============================================ */
+.opencode-iframe-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--opencode-bg-primary);
+}
+
+.opencode-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background-color: var(--opencode-bg-primary);
+}
+
+/* ============================================
+   Status Container (Stopped/Starting/Error)
+   ============================================ */
+.opencode-status-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: var(--size-4-4);
+  padding: var(--size-4-8);
+  text-align: center;
+  background-color: var(--opencode-bg-primary);
+}
+
+.opencode-status-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--opencode-radius-l);
+  background-color: var(--opencode-bg-secondary);
+  color: var(--opencode-text-muted);
+  transition: all var(--opencode-transition);
+}
+
+.opencode-status-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.opencode-status-container h3 {
+  margin: 0;
+  font-size: var(--font-ui-large);
+  font-weight: var(--font-semibold);
+  color: var(--opencode-text-normal);
+}
+
+.opencode-status-message {
+  color: var(--opencode-text-muted);
+  max-width: 360px;
+  margin: 0;
+  font-size: var(--font-ui-small);
+  line-height: 1.5;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+.opencode-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-4-2);
+  padding: var(--size-4-2) var(--size-4-4);
+  font-size: var(--font-ui-small);
+  font-weight: var(--font-medium);
+  color: var(--text-on-accent);
+  background-color: var(--opencode-primary);
+  border: none;
+  border-radius: var(--opencode-radius-m);
+  cursor: pointer;
+  transition: all var(--opencode-transition);
+  box-shadow: var(--opencode-shadow);
+}
+
+.opencode-btn-primary:hover {
+  background-color: var(--opencode-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-m);
+}
+
+.opencode-btn-primary:active {
+  transform: translateY(0);
+  box-shadow: var(--opencode-shadow);
+}
+
+.opencode-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-4-2);
+  padding: var(--size-4-2) var(--size-4-4);
+  font-size: var(--font-ui-small);
+  font-weight: var(--font-medium);
+  color: var(--opencode-text-normal);
+  background-color: var(--opencode-bg-secondary);
+  border: 1px solid var(--opencode-border);
+  border-radius: var(--opencode-radius-m);
+  cursor: pointer;
+  transition: all var(--opencode-transition);
+}
+
+.opencode-btn-secondary:hover {
+  background-color: var(--opencode-bg-tertiary);
+  border-color: var(--opencode-border-hover);
+}
+
+/* Button group */
+.opencode-button-group {
+  display: flex;
+  gap: var(--size-4-2);
+  margin-top: var(--size-4-2);
+}
+
+/* ============================================
+   Error State
+   ============================================ */
+.opencode-error .opencode-status-icon {
+  color: var(--opencode-error);
+  background-color: rgba(var(--color-red-rgb), 0.1);
+}
+
+.opencode-error-message {
+  color: var(--opencode-error);
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+  padding: var(--size-4-2) var(--size-4-3);
+  background-color: rgba(var(--color-red-rgb), 0.08);
+  border: 1px solid rgba(var(--color-red-rgb), 0.2);
+  border-radius: var(--opencode-radius-s);
+  max-width: 480px;
+  word-break: break-word;
+  text-align: left;
+}
+
+/* ============================================
+   Loading Spinner
+   ============================================ */
+.opencode-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.opencode-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--opencode-border);
+  border-top-color: var(--opencode-primary);
+  border-radius: 50%;
+  animation: opencode-spin 0.8s linear infinite;
+}
+
+@keyframes opencode-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   Settings Page Styles
+   ============================================ */
+.opencode-settings-status {
+  margin-top: var(--size-4-3);
+  padding: var(--size-4-4);
+  background-color: var(--opencode-bg-secondary);
+  border: 1px solid var(--opencode-border);
+  border-radius: var(--opencode-radius-m);
+}
+
+.opencode-status-line {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  margin-bottom: var(--size-4-2);
+  font-size: var(--font-ui-small);
+}
+
+.opencode-status-line:last-child {
+  margin-bottom: 0;
+}
+
+.opencode-status-line a {
+  color: var(--opencode-primary);
+  text-decoration: none;
+}
+
+.opencode-status-line a:hover {
+  text-decoration: underline;
+}
+
+/* Status badges */
+.opencode-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--opencode-radius-s);
+  font-size: var(--font-ui-smaller);
+  font-weight: var(--font-medium);
+}
+
+.opencode-status-stopped {
+  background-color: var(--opencode-bg-tertiary);
+  color: var(--opencode-text-muted);
+}
+
+.opencode-status-starting {
+  background-color: rgba(var(--color-yellow-rgb), 0.15);
+  color: var(--opencode-warning);
+}
+
+.opencode-status-running {
+  background-color: rgba(var(--color-green-rgb), 0.15);
+  color: var(--opencode-success);
+}
+
+.opencode-status-error {
+  background-color: rgba(var(--color-red-rgb), 0.15);
+  color: var(--opencode-error);
+}
+
+.opencode-settings-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-4-2);
+  margin-top: var(--size-4-3);
+}
+
+  .opencode-status-waiting {
+  color: var(--opencode-text-muted);
+  font-style: italic;
+  font-size: var(--font-ui-small);
+}
+
+/* ============================================
+   Troubleshooting Section
+   ============================================ */
+.opencode-troubleshooting {
+  margin-top: var(--size-4-4);
+  padding: var(--size-4-4);
+  background-color: var(--opencode-bg-secondary);
+  border: 1px solid var(--opencode-border);
+  border-radius: var(--opencode-radius-m);
+  text-align: left;
+  max-width: 600px;
+}
+
+.opencode-troubleshooting h4 {
+  margin: 0 0 var(--size-4-2) 0;
+  font-size: var(--font-ui-medium);
+  font-weight: var(--font-semibold);
+  color: var(--opencode-text-normal);
+}
+
+.opencode-troubleshooting-intro {
+  margin: 0 0 var(--size-4-3) 0;
+  font-size: var(--font-ui-small);
+  color: var(--opencode-text-muted);
+}
+
+.opencode-troubleshooting-list {
+  margin: 0;
+  padding-left: var(--size-4-5);
+  font-size: var(--font-ui-small);
+  line-height: 1.6;
+  color: var(--opencode-text-normal);
+}
+
+.opencode-troubleshooting-list li {
+  margin-bottom: var(--size-4-3);
+}
+
+.opencode-troubleshooting-list li:last-child {
+  margin-bottom: 0;
+}
+
+.opencode-troubleshooting-list strong {
+  color: var(--opencode-text-normal);
+  font-weight: var(--font-semibold);
+}
+
+.opencode-troubleshooting-hint {
+  margin: var(--size-4-3) 0 0 0;
+  padding-top: var(--size-4-3);
+  border-top: 1px solid var(--opencode-border);
+  font-size: var(--font-ui-smaller);
+  color: var(--opencode-text-muted);
+  font-style: italic;
+}
+
+/* ============================================
+   Update Checker Section
+   ============================================ */
+.opencode-update-section {
+  margin-top: var(--size-4-3);
+  padding: var(--size-4-4);
+  background-color: var(--opencode-bg-secondary);
+  border: 1px solid var(--opencode-border);
+  border-radius: var(--opencode-radius-m);
+}
+
+.opencode-version-info {
+  margin-bottom: var(--size-4-3);
+  font-size: var(--font-ui-small);
+  color: var(--opencode-text-normal);
+}
+
+.opencode-update-result {
+  margin-top: var(--size-4-3);
+  padding: var(--size-4-3);
+  border-radius: var(--opencode-radius-s);
+  font-size: var(--font-ui-small);
+}
+
+.opencode-update-uptodate {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  color: var(--opencode-success);
+}
+
+.opencode-update-available {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  color: var(--opencode-primary);
+  font-weight: var(--font-medium);
+}
+
+.opencode-update-icon {
+  display: flex;
+  align-items: center;
+}
+
+.opencode-update-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.opencode-version-compare {
+  margin-top: var(--size-4-2);
+  font-size: var(--font-ui-small);
+  color: var(--opencode-text-normal);
+}
+
+.opencode-update-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-4-2);
+  margin-top: var(--size-4-3);
+}
+
+.opencode-update-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--size-4-2) var(--size-4-3);
+  font-size: var(--font-ui-smaller);
+  font-weight: var(--font-medium);
+  color: var(--text-on-accent);
+  background-color: var(--opencode-primary);
+  border-radius: var(--opencode-radius-s);
+  text-decoration: none;
+  transition: all var(--opencode-transition);
+}
+
+.opencode-update-links a:hover {
+  background-color: var(--opencode-primary-hover);
+}
+
+.opencode-update-links a:not(.mod-cta) {
+  color: var(--opencode-primary);
+  background-color: transparent;
+  border: 1px solid var(--opencode-border);
+}
+
+.opencode-update-links a:not(.mod-cta):hover {
+  background-color: var(--opencode-bg-tertiary);
+  border-color: var(--opencode-primary);
+}
+
+/* ============================================
+   Diagnostics Output
+   ============================================ */
+.opencode-diagnostics-output {
+  margin-top: var(--size-4-3);
+  padding: var(--size-4-3);
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+  line-height: 1.5;
+  color: var(--opencode-text-normal);
+  background-color: var(--opencode-bg-primary);
+  border: 1px solid var(--opencode-border);
+  border-radius: var(--opencode-radius-s);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* ============================================
+   Dark/Light Theme Adaptations
+   ============================================ */
+.theme-dark .opencode-iframe {
+  color-scheme: dark;
+}
+
+.theme-light .opencode-iframe {
+  color-scheme: light;
+}
+
+/* Improve contrast in high contrast mode */
+.is-high-contrast .opencode-status-icon {
+  border: 1px solid var(--opencode-border);
+}
+
+.is-high-contrast .opencode-action-btn {
+  border: 1px solid var(--opencode-border);
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+@media (max-width: 400px) {
+  .opencode-status-container {
+    padding: var(--size-4-4);
+  }
+  
+  .opencode-button-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .opencode-btn-primary,
+  .opencode-btn-secondary {
+    width: 100%;
+  }
+}
+
+/* ============================================
+   Animation Classes
+   ============================================ */
+.opencode-fade-in {
+  animation: opencode-fade-in 0.2s ease-out;
+}
+
+@keyframes opencode-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   Focus States (Accessibility)
+   ============================================ */
+.opencode-action-btn:focus-visible,
+.opencode-btn-primary:focus-visible,
+.opencode-btn-secondary:focus-visible {
+  outline: 2px solid var(--opencode-primary);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+@media print {
+  .opencode-container {
+    display: none;
+  }
+}

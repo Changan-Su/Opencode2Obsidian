@@ -1,0 +1,24 @@
+node_modules
+data.json
+main.js
+*.map
+.DS_Store
+bun.lock
+package-lock.json
+
+# Release builds
+release/
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS specific
+Thumbs.db
+
+# Local documents
+@Documents/
+Documents/
