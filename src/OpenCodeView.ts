@@ -215,6 +215,41 @@ export class OpenCodeView extends ItemView {
       });
     }
 
+    // Add troubleshooting section
+    const troubleshootingSection = statusContainer.createDiv({
+      cls: "opencode-troubleshooting",
+    });
+
+    troubleshootingSection.createEl("h4", { text: t("errorTroubleshooting") });
+    troubleshootingSection.createEl("p", { 
+      text: t("errorCommonCauses"),
+      cls: "opencode-troubleshooting-intro",
+    });
+
+    const causesList = troubleshootingSection.createEl("ul", {
+      cls: "opencode-troubleshooting-list",
+    });
+
+    // Add common causes and solutions
+    const causes = [
+      { cause: t("errorCauseNotInstalled"), solution: t("errorSolutionNotInstalled") },
+      { cause: t("errorCauseWrongPath"), solution: t("errorSolutionWrongPath") },
+      { cause: t("errorCausePortInUse"), solution: t("errorSolutionPortInUse") },
+      { cause: t("errorCausePermission"), solution: t("errorSolutionPermission") },
+    ];
+
+    causes.forEach(({ cause, solution }) => {
+      const item = causesList.createEl("li");
+      item.createEl("strong", { text: cause });
+      item.createEl("br");
+      item.createSpan({ text: solution });
+    });
+
+    troubleshootingSection.createEl("p", {
+      text: t("errorViewLogs"),
+      cls: "opencode-troubleshooting-hint",
+    });
+
     const buttonContainer = statusContainer.createDiv({
       cls: "opencode-button-group",
     });

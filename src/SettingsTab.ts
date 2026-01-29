@@ -1,8 +1,40 @@
-import { App, PluginSettingTab, Setting, Notice } from "obsidian";
+import { App, PluginSettingTab, Setting, Notice, setIcon } from "obsidian";
 import { existsSync, statSync } from "fs";
 import { homedir } from "os";
+import { spawn } from "child_process";
 import type OpenCode2ObsidianPlugin from "./main";
 import { t, setLocale, getLocale, type Locale } from "./i18n";
+
+/**
+ * Execute a command safely and return stdout
+ */
+async function execCommand(command: string, args: string[] = []): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const proc = spawn(command, args, { shell: false });
+    let stdout = "";
+    let stderr = "";
+
+    proc.stdout?.on("data", (data) => {
+      stdout += data.toString();
+    });
+
+    proc.stderr?.on("data", (data) => {
+      stderr += data.toString();
+    });
+
+    proc.on("close", (code) => {
+      if (code === 0) {
+        resolve(stdout.trim());
+      } else {
+        reject(new Error(stderr || `Command exited with code ${code}`));
+      }
+    });
+
+    proc.on("error", (err) => {
+      reject(err);
+    });
+  });
+}
 
 /**
  * Expand tilde (~) to home directory
@@ -171,6 +203,14 @@ export class OpenCodeSettingTab extends PluginSettingTab {
     // Divider
     containerEl.createEl("hr");
 
+    // Updates section
+    containerEl.createEl("h3", { text: t("settingsUpdateCheck") });
+    const updateContainer = containerEl.createDiv({ cls: "opencode-update-section" });
+    this.renderUpdateChecker(updateContainer);
+
+    // Divider
+    containerEl.createEl("hr");
+
     // Server status section
     containerEl.createEl("h3", { text: t("settingsServerStatus") });
     const statusContainer = containerEl.createDiv({ cls: "opencode-settings-status" });
@@ -274,6 +314,39 @@ export class OpenCodeSettingTab extends PluginSettingTab {
       cls: "opencode-settings-buttons",
     });
 
+    // Add diagnostics button for error state
+    if (state === "error") {
+      const diagnosticsButton = buttonContainer.createEl("button", {
+        text: t("btnRunDiagnostics"),
+        cls: "mod-warning",
+      });
+      diagnosticsButton.addEventListener("click", async () => {
+        diagnosticsButton.disabled = true;
+        diagnosticsButton.setText(t("diagnosticsRunning"));
+        
+        // Remove any existing diagnostics output
+        const existingDiag = container.querySelector(".opencode-diagnostics-output");
+        if (existingDiag) {
+          existingDiag.remove();
+        }
+        
+        const diagnostics = await this.runDiagnostics();
+        
+        // Show diagnostics in a modal or notice
+        new Notice(t("diagnosticsComplete"), 2000);
+        console.log("[OpenCode2Obsidian] Diagnostics:\n" + diagnostics);
+        
+        // Create diagnostics display
+        container.createEl("pre", {
+          text: diagnostics,
+          cls: "opencode-diagnostics-output",
+        });
+        
+        diagnosticsButton.disabled = false;
+        diagnosticsButton.setText(t("btnRunDiagnostics"));
+      });
+    }
+
     if (state === "stopped" || state === "error") {
       const startButton = buttonContainer.createEl("button", {
         text: t("btnStartServer"),
@@ -311,5 +384,172 @@ export class OpenCodeSettingTab extends PluginSettingTab {
         cls: "opencode-status-waiting",
       });
     }
+  }
+
+  /**
+   * Render update checker section
+   */
+  private renderUpdateChecker(container: HTMLElement): void {
+    container.empty();
+
+    const currentVersion = this.plugin.manifest.version;
+    
+    const versionInfo = container.createDiv({ cls: "opencode-version-info" });
+    versionInfo.createSpan({ text: `${t("updateCurrentVersion")}: ` });
+    versionInfo.createEl("strong", { text: currentVersion });
+
+    const buttonContainer = container.createDiv({
+      cls: "opencode-settings-buttons",
+    });
+
+    const checkButton = buttonContainer.createEl("button", {
+      text: t("btnCheckUpdates"),
+      cls: "mod-cta",
+    });
+    
+    // Create a persistent result container
+    const resultContainer = container.createDiv({ cls: "opencode-update-result-container" });
+    
+    checkButton.addEventListener("click", async () => {
+      // Disable button to prevent multiple simultaneous requests
+      checkButton.disabled = true;
+      await this.checkForUpdates(resultContainer, currentVersion);
+      checkButton.disabled = false;
+    });
+  }
+
+  /**
+   * Check for updates from GitHub
+   */
+  private async checkForUpdates(container: HTMLElement, currentVersion: string): Promise<void> {
+    // Clear previous results
+    container.empty();
+    
+    const resultEl = container.createDiv({ cls: "opencode-update-result" });
+    resultEl.setText(t("updateChecking"));
+
+    try {
+      const response = await fetch(
+        "https://api.github.com/repos/Changan-Su/Opencode2Obsidian/releases/latest",
+        {
+          headers: {
+            "Accept": "application/vnd.github.v3+json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`GitHub API responded with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      const latestVersion = data.tag_name.replace(/^v/, ""); // Remove 'v' prefix if present
+      const isUpToDate = this.compareVersions(currentVersion, latestVersion) >= 0;
+
+      resultEl.empty();
+
+      if (isUpToDate) {
+        const upToDateEl = resultEl.createDiv({ cls: "opencode-update-uptodate" });
+        const iconEl = upToDateEl.createSpan({ cls: "opencode-update-icon" });
+        setIcon(iconEl, "check-circle");
+        upToDateEl.createSpan({ text: t("updateUpToDate") });
+      } else {
+        const updateAvailableEl = resultEl.createDiv({ cls: "opencode-update-available" });
+        const iconEl = updateAvailableEl.createSpan({ cls: "opencode-update-icon" });
+        setIcon(iconEl, "download");
+        updateAvailableEl.createSpan({ text: t("updateAvailable") });
+
+        const versionCompare = resultEl.createDiv({ cls: "opencode-version-compare" });
+        versionCompare.createSpan({ text: `${t("updateLatestVersion")}: ` });
+        versionCompare.createEl("strong", { text: latestVersion });
+
+        const linkContainer = resultEl.createDiv({ cls: "opencode-update-links" });
+        
+        const downloadLink = linkContainer.createEl("a", {
+          text: t("btnDownloadUpdate"),
+          href: data.html_url,
+          cls: "mod-cta",
+        });
+        downloadLink.setAttribute("target", "_blank");
+        downloadLink.setAttribute("rel", "noopener noreferrer");
+
+        if (data.body) {
+          const releaseNotesLink = linkContainer.createEl("a", {
+            text: t("updateViewReleaseNotes"),
+            href: data.html_url,
+          });
+          releaseNotesLink.setAttribute("target", "_blank");
+          releaseNotesLink.setAttribute("rel", "noopener noreferrer");
+        }
+      }
+    } catch (error) {
+      resultEl.empty();
+      resultEl.createDiv({ 
+        text: `${t("updateCheckFailed")}: ${(error as Error).message}`,
+        cls: "opencode-error-message",
+      });
+    }
+  }
+
+  /**
+   * Compare semantic versions
+   * Returns: 1 if v1 > v2, -1 if v1 < v2, 0 if equal
+   */
+  private compareVersions(v1: string, v2: string): number {
+    // Remove any 'v' prefix and split by '.' to get base version numbers
+    const clean1 = v1.replace(/^v/, "").split("-")[0]; // Get base version, ignore prerelease
+    const clean2 = v2.replace(/^v/, "").split("-")[0];
+    
+    const parts1 = clean1.split(".").map(n => parseInt(n, 10) || 0);
+    const parts2 = clean2.split(".").map(n => parseInt(n, 10) || 0);
+
+    for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
+      const num1 = parts1[i] || 0;
+      const num2 = parts2[i] || 0;
+
+      if (num1 > num2) return 1;
+      if (num1 < num2) return -1;
+    }
+
+    return 0;
+  }
+
+  /**
+   * Run diagnostics to help troubleshoot issues
+   */
+  async runDiagnostics(): Promise<string> {
+    const diagnostics: string[] = [];
+    
+    diagnostics.push(`${t("diagnosticsOpenCodePath")}: ${this.plugin.settings.opencodePath}`);
+
+    try {
+      // Check if OpenCode command exists - use spawn to avoid command injection
+      const whichCommand = process.platform === "win32" ? "where" : "which";
+      const whichOutput = await execCommand(whichCommand, [this.plugin.settings.opencodePath]);
+      diagnostics.push(`${t("diagnosticsCommandCheck")}: ${t("diagnosticsCommandFound")} (${whichOutput})`);
+    } catch {
+      diagnostics.push(`${t("diagnosticsCommandCheck")}: ${t("diagnosticsCommandNotFound")}`);
+    }
+
+    // Check Node.js version
+    try {
+      const nodeVersion = await execCommand("node", ["--version"]);
+      diagnostics.push(`${t("diagnosticsNodeVersion")}: ${nodeVersion}`);
+    } catch {
+      diagnostics.push(`${t("diagnosticsNodeVersion")}: Not found`);
+    }
+
+    // Check npm version
+    try {
+      const npmVersion = await execCommand("npm", ["--version"]);
+      diagnostics.push(`${t("diagnosticsNpmVersion")}: ${npmVersion}`);
+    } catch {
+      diagnostics.push(`${t("diagnosticsNpmVersion")}: Not found`);
+    }
+
+    // Show PATH
+    diagnostics.push(`${t("diagnosticsEnvPath")}: ${process.env.PATH || "Not set"}`);
+
+    return diagnostics.join("\n");
   }
 }

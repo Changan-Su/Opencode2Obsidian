@@ -58,6 +58,31 @@ Go to **Settings > OpenCode2Obsidian** to configure:
 | Auto-start | Start server when Obsidian opens | Off |
 | Default View | Where to open the panel | Right sidebar |
 
+### Troubleshooting
+
+If you encounter the error **"Process exited unexpectedly exit code 1"**, try these solutions:
+
+1. **Verify OpenCode Installation**
+   ```bash
+   npm install -g @anthropics/opencode
+   ```
+
+2. **Check OpenCode Path**
+   - Go to Settings > OpenCode2Obsidian
+   - Try using `opencode` or the full path (e.g., `/usr/local/bin/opencode`)
+   - Click "Run Diagnostics" button in settings to check installation
+
+3. **Port Conflicts**
+   - Change the port number if 14096 is already in use
+   - Try ports like 14097, 14098, etc.
+
+4. **Check Updates**
+   - Go to Settings > OpenCode2Obsidian
+   - Click "Check for Updates" to ensure you have the latest version
+   - Download updates directly from GitHub releases
+
+For more details, check the console logs (Ctrl/Cmd+Shift+I) or run diagnostics from the settings page.
+
 ### Author
 
 **Changan Su** - [@Changan-Su](https://github.com/Changan-Su)
@@ -117,6 +142,31 @@ MIT License - see [LICENSE](LICENSE) for details.
 | 主机名 | 服务器主机名 | `127.0.0.1` |
 | 自动启动 | Obsidian 启动时自动启动服务器 | 关闭 |
 | 默认视图 | 面板打开位置 | 右侧边栏 |
+
+### 故障排除
+
+如果遇到 **"Process exited unexpectedly exit code 1"** 错误，请尝试以下解决方案：
+
+1. **验证 OpenCode 安装**
+   ```bash
+   npm install -g @anthropics/opencode
+   ```
+
+2. **检查 OpenCode 路径**
+   - 进入 设置 > OpenCode2Obsidian
+   - 尝试使用 `opencode` 或完整路径（如 `/usr/local/bin/opencode`）
+   - 点击设置中的"运行诊断"按钮检查安装情况
+
+3. **端口冲突**
+   - 如果 14096 端口已被占用，请更改端口号
+   - 尝试使用 14097、14098 等端口
+
+4. **检查更新**
+   - 进入 设置 > OpenCode2Obsidian
+   - 点击"检查更新"确保使用最新版本
+   - 直接从 GitHub releases 下载更新
+
+更多详情，请查看控制台日志（Ctrl/Cmd+Shift+I）或从设置页面运行诊断。
 
 ### 作者
 
