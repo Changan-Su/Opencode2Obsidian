@@ -361,10 +361,174 @@
   margin-top: var(--size-4-3);
 }
 
-.opencode-status-waiting {
+  .opencode-status-waiting {
   color: var(--opencode-text-muted);
   font-style: italic;
   font-size: var(--font-ui-small);
+}
+
+/* ============================================
+   Troubleshooting Section
+   ============================================ */
+.opencode-troubleshooting {
+  margin-top: var(--size-4-4);
+  padding: var(--size-4-4);
+  background-color: var(--opencode-bg-secondary);
+  border: 1px solid var(--opencode-border);
+  border-radius: var(--opencode-radius-m);
+  text-align: left;
+  max-width: 600px;
+}
+
+.opencode-troubleshooting h4 {
+  margin: 0 0 var(--size-4-2) 0;
+  font-size: var(--font-ui-medium);
+  font-weight: var(--font-semibold);
+  color: var(--opencode-text-normal);
+}
+
+.opencode-troubleshooting-intro {
+  margin: 0 0 var(--size-4-3) 0;
+  font-size: var(--font-ui-small);
+  color: var(--opencode-text-muted);
+}
+
+.opencode-troubleshooting-list {
+  margin: 0;
+  padding-left: var(--size-4-5);
+  font-size: var(--font-ui-small);
+  line-height: 1.6;
+  color: var(--opencode-text-normal);
+}
+
+.opencode-troubleshooting-list li {
+  margin-bottom: var(--size-4-3);
+}
+
+.opencode-troubleshooting-list li:last-child {
+  margin-bottom: 0;
+}
+
+.opencode-troubleshooting-list strong {
+  color: var(--opencode-text-normal);
+  font-weight: var(--font-semibold);
+}
+
+.opencode-troubleshooting-hint {
+  margin: var(--size-4-3) 0 0 0;
+  padding-top: var(--size-4-3);
+  border-top: 1px solid var(--opencode-border);
+  font-size: var(--font-ui-smaller);
+  color: var(--opencode-text-muted);
+  font-style: italic;
+}
+
+/* ============================================
+   Update Checker Section
+   ============================================ */
+.opencode-update-section {
+  margin-top: var(--size-4-3);
+  padding: var(--size-4-4);
+  background-color: var(--opencode-bg-secondary);
+  border: 1px solid var(--opencode-border);
+  border-radius: var(--opencode-radius-m);
+}
+
+.opencode-version-info {
+  margin-bottom: var(--size-4-3);
+  font-size: var(--font-ui-small);
+  color: var(--opencode-text-normal);
+}
+
+.opencode-update-result {
+  margin-top: var(--size-4-3);
+  padding: var(--size-4-3);
+  border-radius: var(--opencode-radius-s);
+  font-size: var(--font-ui-small);
+}
+
+.opencode-update-uptodate {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  color: var(--opencode-success);
+}
+
+.opencode-update-available {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  color: var(--opencode-primary);
+  font-weight: var(--font-medium);
+}
+
+.opencode-update-icon {
+  display: flex;
+  align-items: center;
+}
+
+.opencode-update-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.opencode-version-compare {
+  margin-top: var(--size-4-2);
+  font-size: var(--font-ui-small);
+  color: var(--opencode-text-normal);
+}
+
+.opencode-update-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-4-2);
+  margin-top: var(--size-4-3);
+}
+
+.opencode-update-links a {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--size-4-2) var(--size-4-3);
+  font-size: var(--font-ui-smaller);
+  font-weight: var(--font-medium);
+  color: var(--text-on-accent);
+  background-color: var(--opencode-primary);
+  border-radius: var(--opencode-radius-s);
+  text-decoration: none;
+  transition: all var(--opencode-transition);
+}
+
+.opencode-update-links a:hover {
+  background-color: var(--opencode-primary-hover);
+}
+
+.opencode-update-links a:not(.mod-cta) {
+  color: var(--opencode-primary);
+  background-color: transparent;
+  border: 1px solid var(--opencode-border);
+}
+
+.opencode-update-links a:not(.mod-cta):hover {
+  background-color: var(--opencode-bg-tertiary);
+  border-color: var(--opencode-primary);
+}
+
+/* ============================================
+   Diagnostics Output
+   ============================================ */
+.opencode-diagnostics-output {
+  margin-top: var(--size-4-3);
+  padding: var(--size-4-3);
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+  line-height: 1.5;
+  color: var(--opencode-text-normal);
+  background-color: var(--opencode-bg-primary);
+  border: 1px solid var(--opencode-border);
+  border-radius: var(--opencode-radius-s);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 /* ============================================

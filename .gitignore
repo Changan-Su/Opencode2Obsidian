@@ -4,6 +4,7 @@ main.js
 *.map
 .DS_Store
 bun.lock
+package-lock.json
 
 # Release builds
 release/
