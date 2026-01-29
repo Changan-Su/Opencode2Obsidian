@@ -279,8 +279,15 @@ export class OpenCodeSettingTab extends PluginSettingTab {
           cls: "opencode-error-message",
         });
       }
+    }
 
-      // Add diagnostics button
+    // Control buttons
+    const buttonContainer = container.createDiv({
+      cls: "opencode-settings-buttons",
+    });
+
+    // Add diagnostics button for error state
+    if (state === "error") {
       const diagnosticsButton = buttonContainer.createEl("button", {
         text: t("btnRunDiagnostics"),
         cls: "mod-warning",
@@ -305,11 +312,6 @@ export class OpenCodeSettingTab extends PluginSettingTab {
         diagnosticsButton.setText(t("btnRunDiagnostics"));
       });
     }
-
-    // Control buttons
-    const buttonContainer = container.createDiv({
-      cls: "opencode-settings-buttons",
-    });
 
     if (state === "stopped" || state === "error") {
       const startButton = buttonContainer.createEl("button", {
